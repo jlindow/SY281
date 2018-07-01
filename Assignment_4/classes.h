@@ -22,5 +22,5 @@ class linkedList
 		void add2Front(int data); 
 		void add2Back(int data); 
 		bool isIn(int data, node* ptr); 
-		void addInOrder(int data); 	
+		void addInOrder(int data, node* ptr); 	
 };

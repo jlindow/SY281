@@ -53,21 +53,26 @@ bool linkedList::isIn(int value, node* ptr)
 
 }
 
-void linkedList::addInOrder(int value) 
-{
-	node* tmp = new node(value); //actual node to insert
-	tmp->nextNode = head;
-       	node* tmp2 = head; //temp node
-	node** tmp3 = &head; //holds insert location of node
-		
-	while(tmp2->nextNode != NULL && tmp2->data < tmp->data)
-	{
-		tmp3 = &tmp2->nextNode; 
-		tmp2 = tmp->nextNode; 
+void linkedList::addInOrder(int value, node* ptr) 
+{	
+	//This seg faults, and I'm not sure why...
+	//Likely due to an attempt to access memory pointed to by a pointer = NULL...
+
+	if(ptr->nextNode == NULL || ptr->nextNode->data > ptr->data) {
+
+		//insert a node here
+		node* newnode = new node(value);
+	      	//newnode goes BEFORE ptr, so the next node is two away from ptr	
+		newnode->nextNode = ptr->nextNode->nextNode;
+		//need to link newnode to ptr
+		ptr->nextNode = newnode; 
+		return; 
+	} else {
+		//otherwise don't insert a node and try again
+		ptr = ptr->nextNode; 
+		addInOrder(value, ptr);
 	}
-		
-	*tmp3 = tmp;
-	tmp->nextNode = tmp2; 
+
 }
 
 node::node(int value)
